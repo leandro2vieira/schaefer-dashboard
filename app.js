@@ -299,28 +299,20 @@ function renderKPIs(boats) {
 
   document.getElementById('kpi-total').textContent     = kpis.total;
   document.getElementById('kpi-delayed').textContent   = kpis.delayed;
-  document.getElementById('kpi-critical').textContent  = kpis.critical;
   document.getElementById('kpi-progress').textContent  = kpis.avgProgress + '%';
   document.getElementById('kpi-deviation').textContent  = (kpis.avgDeviation > 0 ? '+' : '') + kpis.avgDeviation + 'd';
 
   // Highlight delayed KPI block
   const delayedBlock = document.getElementById('kpi-block-delayed');
   if (delayedBlock) {
-    delayedBlock.className = 'kpi-block kpi-filterable ' + (kpis.delayed > 0 ? 'kpi-warn' : 'kpi-good');
-  }
-
-  const critBlock = document.getElementById('kpi-block-critical');
-  if (critBlock) {
-    critBlock.className = 'kpi-block kpi-filterable ' + (kpis.critical > 0 ? 'kpi-crit' : 'kpi-good');
+    delayedBlock.className = 'kpi-block kpi-filterable ' + (kpis.delayed > 0 ? 'kpi-crit' : 'kpi-good');
   }
 }
 
 // ── FILTER UI SYNC ──────────────────────────────────────────
 function updateFilterUI() {
   var delayedBlock = document.getElementById('kpi-block-delayed');
-  var critBlock    = document.getElementById('kpi-block-critical');
   if (delayedBlock) delayedBlock.classList.toggle('kpi-filter-active', activeFilter === 'delayed');
-  if (critBlock)    critBlock.classList.toggle('kpi-filter-active',    activeFilter === 'critical');
 }
 
 // ── CLOCK ────────────────────────────────────────────────────
@@ -402,18 +394,16 @@ function runLiveUpdate() {
 }
 
 // ── FILTER STATE ─────────────────────────────────────────────
-var activeFilter = null; // null | 'delayed' | 'critical'
+var activeFilter = null; // null | 'delayed'
 
-// ── INITIAL RENDER ───────────────────────────────────────────
+// ── INITIAL RENDER ───────────────────────────────────────────────
 function render() {
   const container = document.getElementById('boats-container');
   if (!container) return;
 
-  var boats = activeFilter === 'critical'
-    ? liveBoats.filter(function (b) { return getHealthStatus(b) === 'critical'; })
-    : activeFilter === 'delayed'
-      ? liveBoats.filter(function (b) { var h = getHealthStatus(b); return h === 'warning' || h === 'critical'; })
-      : liveBoats;
+  var boats = activeFilter === 'delayed'
+    ? liveBoats.filter(function (b) { var h = getHealthStatus(b); return h === 'warning' || h === 'critical'; })
+    : liveBoats;
 
   container.innerHTML = boats.length
     ? boats.map(renderBoatCard).join('')
@@ -450,18 +440,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // ── KPI filter clicks ────────────────────────────────────
   var delayedBlock = document.getElementById('kpi-block-delayed');
-  var critBlock    = document.getElementById('kpi-block-critical');
   if (delayedBlock) {
     delayedBlock.classList.add('kpi-filterable');
     delayedBlock.addEventListener('click', function () {
       activeFilter = activeFilter === 'delayed' ? null : 'delayed';
-      render();
-    });
-  }
-  if (critBlock) {
-    critBlock.classList.add('kpi-filterable');
-    critBlock.addEventListener('click', function () {
-      activeFilter = activeFilter === 'critical' ? null : 'critical';
       render();
     });
   }
