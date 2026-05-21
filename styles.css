@@ -1110,7 +1110,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: var(--sp-4);
+  padding: var(--sp-2);
   animation: op-overlay-in 0.18s ease;
 }
 .op-modal-overlay[hidden] { display: none; }
@@ -1124,9 +1124,9 @@ body {
   background: var(--bg-card);
   border: 1px solid var(--border-subtle);
   border-radius: var(--r-xl);
-  width: 100%;
-  max-width: 960px;
-  max-height: 82vh;
+  width: calc(100vw - 16px);
+  max-width: calc(100vw - 16px);
+  max-height: 92vh;
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -1144,7 +1144,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: var(--sp-5) var(--sp-6);
+  padding: var(--sp-4) var(--sp-5);
   border-bottom: 1px solid var(--border-subtle);
   flex-shrink: 0;
 }
@@ -1203,7 +1203,7 @@ body {
 .op-modal-summary {
   display: flex;
   gap: var(--sp-3);
-  padding: var(--sp-4) var(--sp-6);
+  padding: var(--sp-3) var(--sp-5);
   border-bottom: 1px solid var(--border-subtle);
   flex-shrink: 0;
   flex-wrap: wrap;
@@ -1227,10 +1227,10 @@ body {
 .op-modal-body {
   overflow-y: auto;
   flex: 1;
-  padding: var(--sp-5) var(--sp-6);
+  padding: var(--sp-4) var(--sp-5);
   display: flex;
   flex-direction: column;
-  gap: var(--sp-6);
+  gap: var(--sp-5);
 }
 
 /* Section header */
@@ -1268,7 +1268,7 @@ body {
   font-weight: 600;
   letter-spacing: 0.8px;
   text-transform: uppercase;
-  padding: 8px 12px;
+  padding: 8px 8px;
   text-align: left;
   white-space: nowrap;
   position: sticky;
@@ -1287,7 +1287,7 @@ body {
 [data-theme="light"] .op-table tbody tr:hover { background: rgba(0,0,0,0.025); }
 
 .op-table td {
-  padding: 9px 12px;
+  padding: 8px 8px;
   color: var(--text-primary);
   white-space: nowrap;
 }

@@ -506,9 +506,9 @@ function labelStatus(status) {
 function buildOpSection(title, ops, headerClass, isDone) {
   var thead =
     '<thead><tr>' +
-    '<th>N\u00ba OP</th><th>Item</th><th>Seq</th><th>Produto</th>' +
+    '<th>Status</th><th>N\u00ba OP</th><th>Item</th><th>Seq</th><th>Produto</th>' +
     '<th>Prev. In\u00edcio</th><th>Entrega</th><th>Arma.</th>' +
-    '<th>Emiss\u00e3o</th><th>Qtd. Prod.</th><th>Fim Real</th><th>Status</th>' +
+    '<th>Emiss\u00e3o</th><th>Qtd. Prod.</th><th>Fim Real</th>' +
     '</tr></thead>';
 
   var rows = ops.map(function (o) {
@@ -520,6 +520,7 @@ function buildOpSection(title, ops, headerClass, isDone) {
       ? '<span class="op-col-fim">' + formatDate(o.dtRealFim) + '</span>'
       : '<span style="color:var(--text-muted)">—</span>';
     return '<tr class="' + rowClass + '">' +
+      '<td>' + statusCell + '</td>' +
       '<td class="op-col-op">' + o.op + '</td>' +
       '<td>' + o.item + '</td>' +
       '<td>' + o.seq + '</td>' +
@@ -530,7 +531,6 @@ function buildOpSection(title, ops, headerClass, isDone) {
       '<td>' + formatDate(o.dtEmissao) + '</td>' +
       '<td style="text-align:center">' + o.qtdProduzida + '</td>' +
       '<td>' + fimCell + '</td>' +
-      '<td>' + statusCell + '</td>' +
       '</tr>';
   }).join('');
 
