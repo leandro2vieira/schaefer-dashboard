@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Schaefer Yachts — Monitor de Produção</title>
+
+  <!-- Google Fonts: Inter + JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<div class="app-wrapper">
+
+  <!-- ══════════════════════════════════════════════════════
+       HEADER BAR
+  ══════════════════════════════════════════════════════ -->
+  <header class="header-bar">
+
+    <!-- Row 1: Branding + Controls -->
+    <div class="header-top">
+
+      <div class="header-logo">
+        <img
+          class="logo-img"
+          src="https://static.wixstatic.com/media/96e999_a53d70fb9ac747e8a04f095d0d083762~mv2.png/v1/crop/x_171,y_0,w_1413,h_625/fill/w_260,h_115,al_c,q_90,usm_0.66_1.00_0.01,enc_avif,quality_auto/Schaefer%20Yachts%20sem%20simb%20BCO-01.png"
+          alt="Schaefer Yachts"
+        />
+        <div class="logo-sep"></div>
+        <span class="logo-sub">Sistema de Produção</span>
+      </div>
+
+      <div class="header-spacer"></div>
+
+      <!-- Factory Status Badge -->
+      <div id="factory-status" class="factory-status-badge healthy">
+        <span class="status-dot"></span>
+        OPERAÇÃO NORMAL
+      </div>
+
+      <!-- Live indicator -->
+      <div id="live-indicator" class="live-indicator">
+        <span class="live-dot"></span>
+        <span>AO VIVO</span>
+      </div>
+
+      <!-- Theme toggle -->
+      <button id="theme-toggle" class="theme-toggle" onclick="toggleTheme()" title="Alternar tema">
+        <!-- Sun (shown in dark mode → click to go light) -->
+        <svg class="theme-icon theme-icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="4"/>
+          <line x1="12" y1="2" x2="12" y2="5"/>
+          <line x1="12" y1="19" x2="12" y2="22"/>
+          <line x1="4.22" y1="4.22" x2="6.34" y2="6.34"/>
+          <line x1="17.66" y1="17.66" x2="19.78" y2="19.78"/>
+          <line x1="2" y1="12" x2="5" y2="12"/>
+          <line x1="19" y1="12" x2="22" y2="12"/>
+          <line x1="4.22" y1="19.78" x2="6.34" y2="17.66"/>
+          <line x1="17.66" y1="6.34" x2="19.78" y2="4.22"/>
+        </svg>
+        <!-- Moon (shown in light mode → click to go dark) -->
+        <svg class="theme-icon theme-icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+      </button>
+
+      <!-- Clock -->
+      <div class="header-clock">
+        <span class="clock-time" id="clock-time">--:--:--</span>
+        <span class="clock-date" id="clock-date">—</span>
+      </div>
+
+    </div>
+
+    <!-- Row 2: KPI Strip -->
+    <div class="header-kpi">
+      <div class="kpi-strip">
+
+        <div class="kpi-block kpi-brand">
+          <span class="kpi-value" id="kpi-total">6</span>
+          <span class="kpi-label">Barcos Ativos</span>
+        </div>
+
+        <div class="kpi-block" id="kpi-block-delayed">
+          <span class="kpi-value" id="kpi-delayed">—</span>
+          <span class="kpi-label">Em Atraso</span>
+        </div>
+
+        <div class="kpi-block" id="kpi-block-critical">
+          <span class="kpi-value" id="kpi-critical">—</span>
+          <span class="kpi-label">Críticos</span>
+        </div>
+
+        <div class="kpi-block kpi-brand">
+          <span class="kpi-value" id="kpi-progress">—</span>
+          <span class="kpi-label">Avanço Global</span>
+        </div>
+
+        <div class="kpi-block">
+          <span class="kpi-value" id="kpi-weekly">—</span>
+          <span class="kpi-label">Média Semanal</span>
+        </div>
+
+      </div>
+    </div>
+
+  </header>
+
+  <!-- ══════════════════════════════════════════════════════
+       MAIN CONTENT
+  ══════════════════════════════════════════════════════ -->
+  <main class="main-content">
+
+    <!-- Section label -->
+    <div class="section-label">
+      <span class="section-label-text">Barcos em Produção</span>
+      <div class="section-label-line"></div>
+      <span class="footer-text" id="last-update" style="flex-shrink:0; font-size:11px;">—</span>
+    </div>
+
+    <!-- Cards container — populated by app.js -->
+    <div id="boats-container"></div>
+
+  </main>
+
+  <!-- ══════════════════════════════════════════════════════
+       FOOTER
+  ══════════════════════════════════════════════════════ -->
+  <footer class="app-footer">
+    <span class="footer-text">Schaefer Yachts &mdash; Sistema de Acompanhamento de Produção &copy; 2026</span>
+    <span class="footer-text" style="display:flex;align-items:center;gap:8px;">
+      <span class="health-dot" style="background:var(--green);border-radius:50%;width:7px;height:7px;display:inline-block;animation:blink-dot 1.5s infinite"></span>
+      Dados atualizados a cada 30 segundos
+    </span>
+  </footer>
+
+</div><!-- /app-wrapper -->
+
+<!-- ══════════════════════════════════════════════════════
+     MODAL: ORDENS DE PRODUÇÃO
+══════════════════════════════════════════════════════ -->
+<div id="op-modal" class="op-modal-overlay" hidden aria-modal="true" role="dialog" aria-labelledby="op-modal-title">
+  <div class="op-modal-dialog">
+
+    <!-- Header -->
+    <div class="op-modal-header">
+      <div class="op-modal-heading">
+        <span class="op-modal-boat-badge" id="op-modal-boat-badge"></span>
+        <div>
+          <h2 class="op-modal-title" id="op-modal-title"></h2>
+          <span class="op-modal-subtitle" id="op-modal-subtitle"></span>
+        </div>
+      </div>
+      <button class="op-modal-close" id="op-modal-close" aria-label="Fechar">&#x2715;</button>
+    </div>
+
+    <!-- Summary chips -->
+    <div class="op-modal-summary" id="op-modal-summary"></div>
+
+    <!-- Body -->
+    <div class="op-modal-body" id="op-modal-body"></div>
+
+  </div>
+</div>
+
+<script src="data.js"></script>
+<script src="app.js"></script>
+
+</body>
+</html>
