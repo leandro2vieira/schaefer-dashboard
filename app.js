@@ -40,6 +40,12 @@ const HEALTH_ICON = {
   critical: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>`,
 };
 
+const HEALTH_COLOR = {
+  healthy:  '#10b981',
+  warning:  '#f59e0b',
+  critical: '#ef4444',
+};
+
 const FACTORY_LABEL = {
   healthy:  'OPERAÇÃO NORMAL',
   warning:  'ATENÇÃO',
@@ -247,7 +253,7 @@ function renderBoatCard(boat) {
       <div class="boat-progress-section">
         <div class="progress-header">
           <div style="display:flex;align-items:baseline;gap:8px">
-            <span class="progress-pct" id="pct-${boat.id}" style="color:${boat.color}">${boat.progress}<span class="pct-sym">%</span></span>
+            <span class="progress-pct" id="pct-${boat.id}" style="color:${HEALTH_COLOR[health]}">${boat.progress}<span class="pct-sym">%</span></span>
             <span style="font-size:13px;color:var(--text-muted);font-weight:500">concluído</span>
           </div>
           <div class="progress-stats">
@@ -268,7 +274,7 @@ function renderBoatCard(boat) {
 
         <div class="progress-track-wrap">
           <div class="progress-track">
-            <div class="progress-fill" id="fill-${boat.id}" style="width:${boat.progress}%; background:${boat.color}"></div>
+            <div class="progress-fill" id="fill-${boat.id}" style="width:${boat.progress}%; background:${HEALTH_COLOR[health]}"></div>
             <div class="progress-planned-marker" style="left:${markerPct}%">
               <div class="progress-planned-label">Planejado ${boat.plannedProgress}%</div>
             </div>
@@ -295,11 +301,7 @@ function renderKPIs(boats) {
   document.getElementById('kpi-delayed').textContent   = kpis.delayed;
   document.getElementById('kpi-critical').textContent  = kpis.critical;
   document.getElementById('kpi-progress').textContent  = kpis.avgProgress + '%';
-  document.getElementById('kpi-weekly').textContent    = kpis.avgWeeklyAdvance.toFixed(1) + '%';
-
-  const badge = document.getElementById('factory-status');
-  badge.className = 'factory-status-badge ' + kpis.factoryStatus;
-  badge.innerHTML = `<span class="status-dot"></span>${FACTORY_LABEL[kpis.factoryStatus]}`;
+  document.getElementById('kpi-deviation').textContent  = (kpis.avgDeviation > 0 ? '+' : '') + kpis.avgDeviation + 'd';
 
   // Highlight delayed KPI block
   const delayedBlock = document.getElementById('kpi-block-delayed');

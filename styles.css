@@ -61,6 +61,8 @@
 
   /* Logo filter: white logo on dark bg */
   --logo-filter: none;
+  /* Logo filter for dark logos (e.g. TEEP): invert to white in dark mode */
+  --logo-filter-inv: brightness(0) invert(1);
 }
 
 /* ── DESIGN TOKENS — LIGHT ──────────────────────────────────── */
@@ -109,6 +111,8 @@
 
   /* White logo on light bg → invert to dark */
   --logo-filter: brightness(0) saturate(100%);
+  /* Dark logo on light bg → no filter needed */
+  --logo-filter-inv: none;
 }
 
 /* ── DESIGN TOKENS — SHARED (spacing, radius, typography) ───── */
@@ -270,6 +274,11 @@ body {
   filter: var(--logo-filter);
   display: block;
   transition: filter 0.3s ease;
+}
+
+.logo-img-inv {
+  filter: var(--logo-filter-inv);
+  height: 32px;
 }
 
 .logo-sep {

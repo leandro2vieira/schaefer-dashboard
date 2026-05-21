@@ -242,13 +242,21 @@ function getGlobalKPIs(boats) {
   }).length;
   const critical = boats.filter(b => getHealthStatus(b) === 'critical').length;
   const avgProgress = Math.round(boats.reduce((s, b) => s + b.progress, 0) / total);
-  const avgWeeklyAdvance = 8.4; // mocked weekly average %
+  var delayedStages = [];
+  boats.forEach(function(b) {
+    b.stages.forEach(function(s) {
+      if (s.deviationDays > 0) delayedStages.push(s.deviationDays);
+    });
+  });
+  var avgDeviation = delayedStages.length > 0
+    ? Math.round(delayedStages.reduce(function(a, v) { return a + v; }, 0) / delayedStages.length)
+    : 0;
 
   let factoryStatus = 'healthy';
   if (critical > 0) factoryStatus = 'critical';
   else if (delayed > 0) factoryStatus = 'warning';
 
-  return { total, delayed, critical, avgProgress, avgWeeklyAdvance, factoryStatus };
+  return { total, delayed, critical, avgProgress, avgDeviation, factoryStatus };
 }
 
 // Format date for display
