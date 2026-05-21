@@ -304,13 +304,21 @@ function renderKPIs(boats) {
   // Highlight delayed KPI block
   const delayedBlock = document.getElementById('kpi-block-delayed');
   if (delayedBlock) {
-    delayedBlock.className = 'kpi-block ' + (kpis.delayed > 0 ? 'kpi-warn' : 'kpi-good');
+    delayedBlock.className = 'kpi-block kpi-filterable ' + (kpis.delayed > 0 ? 'kpi-warn' : 'kpi-good');
   }
 
   const critBlock = document.getElementById('kpi-block-critical');
   if (critBlock) {
-    critBlock.className = 'kpi-block ' + (kpis.critical > 0 ? 'kpi-crit' : 'kpi-good');
+    critBlock.className = 'kpi-block kpi-filterable ' + (kpis.critical > 0 ? 'kpi-crit' : 'kpi-good');
   }
+}
+
+// ── FILTER UI SYNC ──────────────────────────────────────────
+function updateFilterUI() {
+  var delayedBlock = document.getElementById('kpi-block-delayed');
+  var critBlock    = document.getElementById('kpi-block-critical');
+  if (delayedBlock) delayedBlock.classList.toggle('kpi-filter-active', activeFilter === 'delayed');
+  if (critBlock)    critBlock.classList.toggle('kpi-filter-active',    activeFilter === 'critical');
 }
 
 // ── CLOCK ────────────────────────────────────────────────────
@@ -391,13 +399,26 @@ function runLiveUpdate() {
   }
 }
 
+// ── FILTER STATE ─────────────────────────────────────────────
+var activeFilter = null; // null | 'delayed' | 'critical'
+
 // ── INITIAL RENDER ───────────────────────────────────────────
 function render() {
   const container = document.getElementById('boats-container');
   if (!container) return;
 
-  container.innerHTML = liveBoats.map(renderBoatCard).join('');
+  var boats = activeFilter === 'critical'
+    ? liveBoats.filter(function (b) { return getHealthStatus(b) === 'critical'; })
+    : activeFilter === 'delayed'
+      ? liveBoats.filter(function (b) { var h = getHealthStatus(b); return h === 'warning' || h === 'critical'; })
+      : liveBoats;
+
+  container.innerHTML = boats.length
+    ? boats.map(renderBoatCard).join('')
+    : '<p class="filter-empty">Nenhum barco com este status no momento.</p>';
+
   renderKPIs(liveBoats);
+  updateFilterUI();
 }
 
 // ── THEME TOGGLE ─────────────────────────────────────────────
@@ -424,6 +445,24 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // Live data refresh every 30 seconds
   setInterval(runLiveUpdate, 30000);
+
+  // ── KPI filter clicks ────────────────────────────────────
+  var delayedBlock = document.getElementById('kpi-block-delayed');
+  var critBlock    = document.getElementById('kpi-block-critical');
+  if (delayedBlock) {
+    delayedBlock.classList.add('kpi-filterable');
+    delayedBlock.addEventListener('click', function () {
+      activeFilter = activeFilter === 'delayed' ? null : 'delayed';
+      render();
+    });
+  }
+  if (critBlock) {
+    critBlock.classList.add('kpi-filterable');
+    critBlock.addEventListener('click', function () {
+      activeFilter = activeFilter === 'critical' ? null : 'critical';
+      render();
+    });
+  }
 
   // ── Delegated click handler for stage nodes ──────────────
   document.addEventListener('click', function (e) {

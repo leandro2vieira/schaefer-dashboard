@@ -317,11 +317,28 @@ body {
   cursor: default;
 }
 
+.kpi-block.kpi-filterable {
+  cursor: pointer;
+}
+
+.kpi-block.kpi-filter-active {
+  background: var(--bg-elevated);
+  box-shadow: inset 0 -2px 0 currentColor;
+  cursor: pointer;
+}
+
+.kpi-block.kpi-filter-active .kpi-label::after {
+  content: ' ×';
+  opacity: 0.6;
+  font-size: 10px;
+}
+
 .kpi-block:last-child {
   border-right: none;
 }
 
-.kpi-block:hover {
+.kpi-block:hover,
+.kpi-block.kpi-filterable:hover {
   background: var(--bg-elevated);
 }
 
@@ -1098,6 +1115,14 @@ body {
 .text-green  { color: var(--green); }
 .text-yellow { color: var(--yellow); }
 .text-red    { color: var(--red); }
+
+.filter-empty {
+  text-align: center;
+  color: var(--text-muted);
+  font-size: var(--fs-sm);
+  padding: var(--sp-12) 0;
+  width: 100%;
+}
 
 /* ── MODAL: ORDENS DE PRODUÇÃO ──────────────────────────────── */
 .op-modal-overlay {
