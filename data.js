@@ -42,6 +42,7 @@ const BOATS = [
     progress: 72,
     plannedProgress: 67,
     color: '#06b6d4',
+    filial: 'palhoca',
     stages: [
       { id: 'marcenaria', status: 'done',    plannedStart: '2026-01-05', plannedEnd: '2026-01-30', actualStart: '2026-01-05', actualEnd: '2026-01-30', deviationDays: 0 },
       { id: 'pintura',    status: 'done',    plannedStart: '2026-02-02', plannedEnd: '2026-02-27', actualStart: '2026-02-02', actualEnd: '2026-03-01', deviationDays: 2 },
@@ -77,6 +78,7 @@ const BOATS = [
     progress: 45,
     plannedProgress: 37,
     color: '#8b5cf6',
+    filial: 'florianopolis',
     stages: [
       { id: 'marcenaria', status: 'done',    plannedStart: '2026-02-02', plannedEnd: '2026-03-06', actualStart: '2026-02-02', actualEnd: '2026-03-06', deviationDays: 0 },
       { id: 'pintura',    status: 'done',    plannedStart: '2026-03-09', plannedEnd: '2026-04-10', actualStart: '2026-03-09', actualEnd: '2026-04-15', deviationDays: 5 },
@@ -112,6 +114,7 @@ const BOATS = [
     progress: 91,
     plannedProgress: 90,
     color: '#10b981',
+    filial: 'biguacu',
     stages: [
       { id: 'marcenaria', status: 'done',    plannedStart: '2026-01-05', plannedEnd: '2026-01-23', actualStart: '2026-01-05', actualEnd: '2026-01-22', deviationDays: -1 },
       { id: 'pintura',    status: 'done',    plannedStart: '2026-01-26', plannedEnd: '2026-02-13', actualStart: '2026-01-26', actualEnd: '2026-02-12', deviationDays: -1 },
@@ -147,6 +150,7 @@ const BOATS = [
     progress: 28,
     plannedProgress: 42,
     color: '#ef4444',
+    filial: 'palhoca',
     stages: [
       { id: 'marcenaria', status: 'done',    plannedStart: '2026-02-02', plannedEnd: '2026-02-27', actualStart: '2026-02-02', actualEnd: '2026-03-06', deviationDays: 7 },
       { id: 'pintura',    status: 'delayed', plannedStart: '2026-03-02', plannedEnd: '2026-03-27', actualStart: '2026-03-09', actualEnd: null,         deviationDays: 9 },
@@ -180,6 +184,7 @@ const BOATS = [
     progress: 60,
     plannedProgress: 55,
     color: '#f59e0b',
+    filial: 'florianopolis',
     stages: [
       { id: 'marcenaria', status: 'done',    plannedStart: '2026-02-23', plannedEnd: '2026-03-13', actualStart: '2026-02-23', actualEnd: '2026-03-13', deviationDays: 0 },
       { id: 'pintura',    status: 'done',    plannedStart: '2026-03-16', plannedEnd: '2026-04-03', actualStart: '2026-03-16', actualEnd: '2026-04-07', deviationDays: 4 },
@@ -213,6 +218,7 @@ const BOATS = [
     progress: 15,
     plannedProgress: 14,
     color: '#3b82f6',
+    filial: 'biguacu',
     stages: [
       { id: 'marcenaria', status: 'active',  plannedStart: '2026-05-04', plannedEnd: '2026-05-29', actualStart: '2026-05-04', actualEnd: null,         deviationDays: 0 },
       { id: 'pintura',    status: 'pending', plannedStart: '2026-06-01', plannedEnd: '2026-06-19', actualStart: null,         actualEnd: null,         deviationDays: 0 },

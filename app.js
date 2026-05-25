@@ -315,6 +315,12 @@ function updateFilterUI() {
   if (delayedBlock) delayedBlock.classList.toggle('kpi-filter-active', activeFilter === 'delayed');
 }
 
+function updateUnitTabs() {
+  document.querySelectorAll('.unit-tab').forEach(function (btn) {
+    btn.classList.toggle('unit-tab-active', btn.dataset.unit === activeUnit);
+  });
+}
+
 // ── CLOCK ────────────────────────────────────────────────────
 function updateClock() {
   const now = new Date();
@@ -375,7 +381,7 @@ function runLiveUpdate() {
   });
 
   // Update global KPIs
-  renderKPIs(liveBoats);
+  renderKPIs(getUnitBoats());
 
   // Flash live indicator
   setTimeout(() => {
@@ -395,22 +401,31 @@ function runLiveUpdate() {
 
 // ── FILTER STATE ─────────────────────────────────────────────
 var activeFilter = null; // null | 'delayed'
+var activeUnit   = 'all'; // 'all' | 'palhoca' | 'florianopolis' | 'biguacu'
+
+function getUnitBoats() {
+  return activeUnit === 'all'
+    ? liveBoats
+    : liveBoats.filter(function (b) { return b.filial === activeUnit; });
+}
 
 // ── INITIAL RENDER ───────────────────────────────────────────────
 function render() {
   const container = document.getElementById('boats-container');
   if (!container) return;
 
+  var unitBoats = getUnitBoats();
   var boats = activeFilter === 'delayed'
-    ? liveBoats.filter(function (b) { var h = getHealthStatus(b); return h === 'warning' || h === 'critical'; })
-    : liveBoats;
+    ? unitBoats.filter(function (b) { var h = getHealthStatus(b); return h === 'warning' || h === 'critical'; })
+    : unitBoats;
 
   container.innerHTML = boats.length
     ? boats.map(renderBoatCard).join('')
     : '<p class="filter-empty">Nenhum barco com este status no momento.</p>';
 
-  renderKPIs(liveBoats);
+  renderKPIs(unitBoats);
   updateFilterUI();
+  updateUnitTabs();
 }
 
 // ── THEME TOGGLE ─────────────────────────────────────────────
@@ -437,6 +452,15 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // Live data refresh every 30 seconds
   setInterval(runLiveUpdate, 30000);
+
+  // ── Unit tab clicks ──────────────────────────────────────
+  document.querySelectorAll('.unit-tab').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      activeUnit = btn.dataset.unit;
+      activeFilter = null; // reset Em Atraso filter on unit change
+      render();
+    });
+  });
 
   // ── KPI filter clicks ────────────────────────────────────
   var delayedBlock = document.getElementById('kpi-block-delayed');

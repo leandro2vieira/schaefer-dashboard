@@ -250,7 +250,44 @@ body {
   flex: 1;
 }
 
-/* Row 2: KPI ribbon */
+/* Row 2: Unit tabs */
+.unit-tabs {
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+  background: var(--bg-base);
+  border-bottom: 1px solid var(--border-subtle);
+  padding: 0 var(--sp-4);
+}
+
+.unit-tab {
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-family: inherit;
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  padding: 0 var(--sp-4);
+  height: 36px;
+  transition: color 0.15s, border-color 0.15s, background 0.15s;
+  white-space: nowrap;
+}
+
+.unit-tab:hover {
+  color: var(--text-primary);
+  background: var(--bg-elevated);
+}
+
+.unit-tab.unit-tab-active {
+  color: var(--brand-cyan);
+  border-bottom-color: var(--brand-cyan);
+}
+
+/* Row 3: KPI ribbon */
 .header-kpi {
   height: 52px;
   background: var(--bg-surface);
